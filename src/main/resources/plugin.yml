@@ -1,0 +1,4 @@
+name: SQLExample
+version: '${version}'
+main: dev.potato.sqlexample.SQLExample
+api-version: '1.20'
