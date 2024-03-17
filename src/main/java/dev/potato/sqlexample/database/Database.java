@@ -1,5 +1,6 @@
 package dev.potato.sqlexample.database;
 
+import dev.potato.sqlexample.SQLExample;
 import dev.potato.sqlexample.models.PlayerStats;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -8,16 +9,30 @@ import org.bukkit.Bukkit;
 import java.sql.*;
 
 public class Database {
+    private final SQLExample plugin = SQLExample.getPlugin();
+    private final String HOST;
+    private final String PORT;
+    private final String USER;
+    private final String PASSWORD;
+    private final String DATABASE_NAME;
+    private final String TYPE;
     private Connection connection;
+
+    public Database(String HOST, String PORT, String USER, String PASSWORD, String DATABASE_NAME, String TYPE) {
+        this.HOST = HOST;
+        this.PORT = PORT;
+        this.USER = USER;
+        this.PASSWORD = PASSWORD;
+        this.DATABASE_NAME = DATABASE_NAME;
+        this.TYPE = TYPE;
+    }
 
     public Connection getConnection() throws SQLException {
         if (connection != null) return connection;
 
-        String url = "jdbc:mysql://localhost/stat_tracker";
-        String user = "root";
-        String password = "";
+        String url = "jdbc:" + TYPE + "://" + HOST + "/" + DATABASE_NAME;
 
-        connection = DriverManager.getConnection(url, user, password);
+        connection = DriverManager.getConnection(url, USER, PASSWORD);
         Bukkit.getConsoleSender().sendMessage(Component.text("[SQL Example] Database connected successfully!", NamedTextColor.GREEN));
 
         return connection;
